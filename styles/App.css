@@ -1,0 +1,117 @@
+#cardTitle {
+  font-size: larger;
+  font-weight: bolder;
+  color: rgb(255, 255, 255);
+}
+
+#cardImg {
+  width: 160px;
+  height: 160px;
+  margin: 0;
+}
+
+#postBadge {
+  float: right;
+  margin: 10px;
+}
+
+#cardSub {
+  color: rgb(66, 66, 66);
+}
+
+#serverStats,
+#jumboinfo {
+  margin: 20px;
+  background-color: #1f2024;
+  color: #a0a0a0;
+  text-shadow: 1px 1px 4px#3d3d3d;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.72);
+}
+
+#serverStats {
+  margin-bottom: 10px;
+}
+
+#serverStats:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.72);
+}
+
+#jumboinfo {
+  margin-top: 80px;
+}
+
+html,
+.App,
+body {
+  background-color: rgb(65, 30, 30);
+  color: rgb(255, 255, 255);
+  position: relative;
+}
+
+#navbar1 {
+  margin-bottom: 100px;
+  background-color: #272727 !important;
+  text-shadow: 2px 2px 4px#000000;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.72);
+}
+
+#navbarbrand1 {
+  color: #ffffff !important;
+  text-shadow: 2px 2px 4px#000000;
+  font-size: 3em;
+  font-weight: 500;
+  margin-left: 30px;
+}
+
+#navbarbrand2 {
+  margin-top: 25px;
+  color: #d8d8d8 !important;
+  text-shadow: 2px 2px 4px black;
+}
+
+#logbutton {
+  float: right;
+  margin: 10px;
+}
+
+#Footer1 {
+  bottom: 0;
+  height: 75px;
+  width: 100%;
+  margin-top: 60px;
+}
+
+#tos {
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 200px;
+}
+
+#footerlink,
+#tosLink {
+  color: orange !important;
+  text-decoration: underline !important;
+}
+
+#loginForm {
+  width: 600px;
+  height: 400px;
+  margin: auto;
+  margin-bottom: 15rem;
+}
+
+#dateCss {
+  font-size: small;
+  color: rgb(255, 255, 255);
+  margin-left: calc(100% - 70px);
+}
+
+a {
+  color: inherit !important; /* blue colors for links too */
+  text-decoration: inherit !important; /* no underline */
+}
+
+#modalclaim {
+  color: black !important;
+}
