@@ -48,7 +48,7 @@ const Navbar1 = (props) => {
         {(user?.business && (
           <Link href={`/create`} as={"/create"}>
             <Button id="logbutton" color="warning">
-              New
+              <i class="far fa-envelope"></i>
             </Button>
           </Link>
         )) || <div></div>}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Form, Label, Input, Button, Badge } from "reactstrap";
 import axios from "axios";
-import { useUserCtx } from "../components/userContext";
+import { useUserCtx } from "@components/userContext";
 
 const Create = () => {
   const [postCred, setPostCred] = useState();

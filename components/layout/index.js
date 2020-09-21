@@ -1,6 +1,7 @@
 import Navbar1 from "@/components/Navbar";
 import Footer1 from "@/components/Footer1";
 import Head from "next/head";
+import "font-awesome/css/font-awesome.min.css";
 
 const Layout = ({ children }) => {
   return (
