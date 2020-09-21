@@ -72,6 +72,7 @@ const Homepage = () => {
               bcolor={(user?.id === 1 && "light") || "success"}
               btext={<a href={"/u/" + user?.username}>{user?.username}</a>}
               date={created_at.split("T")[0]}
+              claim={"Unclaimable"}
             />
           ))}
         {channels
