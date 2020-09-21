@@ -73,6 +73,7 @@ const Homepage = () => {
               btext={<a href={"/u/" + user?.username}>{user?.username}</a>}
               date={created_at.split("T")[0]}
               claim={"Unclaimable"}
+              disable={true}
             />
           ))}
         {channels
