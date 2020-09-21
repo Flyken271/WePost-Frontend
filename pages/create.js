@@ -3,7 +3,7 @@ import { Form, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 import { useUserCtx } from "../components/userContext";
 
-const LoginPage = () => {
+const create = () => {
   const [postCred, setPostCred] = useState();
   const { user } = useUserCtx();
   useEffect(() => {
@@ -102,4 +102,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default create;
