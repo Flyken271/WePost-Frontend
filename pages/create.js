@@ -3,7 +3,7 @@ import { Form, Label, Input, Button, Badge } from "reactstrap";
 import axios from "axios";
 import { useUserCtx } from "../components/userContext";
 
-const create = () => {
+const Create = () => {
   const [postCred, setPostCred] = useState();
   const { user } = useUserCtx();
   useEffect(() => {
@@ -102,4 +102,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default Create;
