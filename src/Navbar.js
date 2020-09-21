@@ -66,7 +66,7 @@ const Navbar1 = (props) => {
           </a>
         )) || (
           <a href="/login">
-            <Button id="logbutton" color="primary">
+            <Button id="logbutton" color="info">
               Login
             </Button>
           </a>
