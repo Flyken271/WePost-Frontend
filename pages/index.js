@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
 import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
+const strapi = new Strapi("http://api.flyken.xyz:1337/");
 import { useAPI } from "./components/UserContextProvider";
 
 export default function Home(posts) {
@@ -47,7 +47,7 @@ export default function Home(posts) {
 
       <div className={styles.container}>
         <Head>
-          <title>WePost - Links</title>
+          <title>WePost - Home</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 

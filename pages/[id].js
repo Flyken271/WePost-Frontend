@@ -1,5 +1,5 @@
 import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
+const strapi = new Strapi("http://api.flyken.xyz:1337/");
 import Head from "next/head";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
