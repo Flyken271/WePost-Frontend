@@ -14,7 +14,7 @@ const UserContextProvider = (props) => {
     try {
       const token = localStorage.getItem("jwt").replace(/['"]+/g, "");
       axios
-        .get("http://api.flyken.xyz:1337/Users/me", {
+        .get("https://api.wepost.xyz/Users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
