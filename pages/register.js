@@ -2,7 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useContext } from "react";
 import { Button } from "reactstrap";
-import strapi from "./components/backend";
+import Strapi from "strapi-sdk-javascript";
+const strapi = new Strapi("http://api.wepost.xyz/");
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 export default function Register() {

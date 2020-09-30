@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "reactstrap";
-import strapi from "./components/backend";
+import Strapi from "strapi-sdk-javascript";
+const strapi = new Strapi("http://api.wepost.xyz/");
 import styles from "../styles/Home.module.css";
 import { useAPI } from "./components/UserContextProvider";
 
