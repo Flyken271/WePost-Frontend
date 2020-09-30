@@ -1,4 +1,5 @@
-import strapi from "./components/backend";
+import Strapi from "strapi-sdk-javascript";
+const strapi = new Strapi("http://api.wepost.xyz/");
 import Head from "next/head";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
