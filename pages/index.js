@@ -1,123 +1,104 @@
-import Card1 from "./Card1";
-import axios from "axios";
-import { useState } from "react";
-import { useUserCtx } from "../components/userContext";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import Head from "next/head";
+import Link from "next/link";
+import { Button } from "reactstrap";
+import styles from "../styles/Home.module.css";
+import strapi from "./components/backend";
+import { useAPI } from "./components/UserContextProvider";
 
-const IndexPage = ({ channels }) => {
-  const [modal, setModal] = useState(false);
-  const { user1 } = useUserCtx();
-  const toggle = () => setModal(!modal);
-  console.log("channels: ", channels);
-
-  const handleClaim = (id, userid) => {
-    axios
-      .put(
-        "https://api.wepost.xyz/Posts/" + id,
-        {
-          claim: userid,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        }
-      )
-      .then(toggle());
-  };
+export default function Home(posts) {
+  const { user } = useAPI();
   return (
     <>
-      <div className="container home">
-        <Modal id="modalclaim" isOpen={modal} toggle={toggle}>
-          <ModalHeader toggle={toggle}>You've claimed this post!</ModalHeader>
-          <ModalBody>
-            You've claimed this post, time to get to work, be sure to read the{" "}
-            <a id="tosLink" href="/tos">
-              Terms of Service
-            </a>{" "}
-            page. Be sure to follow the TOS and site rules to be rewarded the
-            most.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" onClick={toggle}>
-              Close
+      {user.id ? (
+        <>
+          <Link href="/new/">
+            <Button
+              className={styles.menuButtons}
+              style={{ margin: "20px" }}
+              color="info"
+            >
+              New
             </Button>
-          </ModalFooter>
-        </Modal>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link href="/login/">
+            <Button
+              className={styles.menuButtons}
+              style={{ margin: "20px" }}
+              color="success"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link href="/register/">
+            <Button
+              className={styles.menuButtons}
+              style={{ margin: "20px" }}
+              color="warning"
+            >
+              Register
+            </Button>
+          </Link>
+        </>
+      )}
 
-        {channels
-          ?.filter((channel) => {
-            return channel.pinned;
-          })
-          .map(({ id, Title, content, pinned, user, created_at }) => (
-            <Card1
-              link={"/posts/" + id}
-              bodyStyle={{ border: "3px solid red" }}
-              title={pinned ? id + " - " + Title : id + " - " + Title}
-              content={content}
-              key={id}
-              bcolor={(user?.id === 1 && "light") || "success"}
-              btext={user?.username}
-              date={created_at.split("T")[0]}
-              claim={"Unclaimable"}
-              disable={true}
-            />
-          ))}
-        {channels
-          ?.filter((channel) => {
-            return !channel.pinned && !channel.claim;
-          })
-          .map(({ id, Title, content, pinned, user, created_at }) => (
-            <Card1
-              link={"/posts/" + id}
-              title={id + " - " + Title}
-              content={content}
-              key={id}
-              bcolor={(user?.id === 1 && "light") || "success"}
-              btext={user?.username}
-              date={created_at.split("T")[0]}
-              onClaim={() => handleClaim(id, user?.id)}
-              claim={
-                user1?.business ? "Claim - You cannot claim Posts" : "Claim"
-              }
-              disable={user1?.business ? true : false}
-            />
-          ))}
+      <div className={styles.container}>
+        <Head>
+          <title>WePost - Links</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-        {channels
-          ?.filter((channel) => {
-            return !channel.pinned && channel.claim;
-          })
-          .map(({ id, Title, content, pinned, user, created_at, claim }) => (
-            <Card1
-              link={"/posts/" + id}
-              title={"Claimed - " + Title}
-              content={content}
-              key={id}
-              bcolor={(user?.id === 1 && "light") || "success"}
-              btext={user?.username}
-              date={created_at.split("T")[0]}
-              claim={"Claimed - " + claim.username}
-              disable={true}
-            />
-          ))}
+        <main className={styles.main}>
+          <h1 className={styles.title}>
+            {user.id ? (
+              <>
+                Welcome back, <a href="/">{user?.username}</a>
+              </>
+            ) : (
+              <>
+                Welcome to <a href="/">WePost!</a>
+              </>
+            )}
+          </h1>
+
+          <div className={styles.grid}>
+            {posts.posts.map((post, index) => {
+              return (
+                <a key={index} href={`/${post.id}`} className={styles.card}>
+                  <h3>{post.Title}</h3>
+                  <p style={{ maxWidth: "250px" }}>{post.content}</p>
+                  <br />
+                  <h6>by {post.user?.username}</h6>
+                </a>
+              );
+            })}
+          </div>
+        </main>
+
+        <footer className={styles.footer}>
+          <a
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by{" "}
+            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          </a>
+        </footer>
       </div>
     </>
   );
-};
+}
 
-export async function getStaticProps() {
-  /* this is where we fetch your posts */
-  const response = await axios.get(
-    "https://api.wepost.xyz/Posts?_sort=created_at:desc"
-  );
+export async function getServerSideProps() {
+  const response = await strapi.getEntries("posts?_sort=created_at:DESC");
+  var posts = response;
 
   return {
     props: {
-      channels: response.data,
+      posts,
     },
-    revalidate: 1,
   };
 }
-
-export default IndexPage;

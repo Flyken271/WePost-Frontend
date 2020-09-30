@@ -5,32 +5,37 @@ import { useRouter } from "next/router";
 import { Button } from "reactstrap";
 import strapi from "./components/backend";
 import styles from "../styles/Home.module.css";
+import { useAPI } from "./components/UserContextProvider";
 
-export default function Login() {
-  const [email, setEmail] = useState(0);
-  const [password, setPassword] = useState(0);
+export default function New() {
+  const { user } = useAPI();
+  const [title, setTitle] = useState(0);
+  const [content, setContent] = useState(0);
   const router = useRouter();
-  const handleLogon = (e) => {
+  const handleNew = (e) => {
     e.preventDefault();
-    strapi.login(email, password).then((response) => {
-      window.localStorage.setItem("jwt", response.jwt);
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
-    });
+    strapi
+      .createEntry("Posts", {
+        Title: title,
+        content: content,
+        user: user,
+      })
+      .then((response) => {
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      });
   };
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>WePost - Login</title>
+        <title>WePost - New</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Login to <a href="/">WePost!</a>
-        </h1>
+        <h1 className={styles.title}>Create a new post.</h1>
 
         <div className={styles.grid}>
           <Link href="/">
@@ -41,27 +46,29 @@ export default function Login() {
         </div>
 
         <form>
-          <label>Username or Email:</label>
+          <label>Title: </label>
           <input
             className="form-control"
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
+            onChange={(e) => {
+              if (e.target.value.length >= 20) {
+                alert("The title cannot exceed 20 characters!");
+                e.target.value = "";
+              } else {
+                setTitle(e.target.value);
+              }
+            }}
+            type="text"
             placeholder="Username or Email"
           />
-          <small className="form-text text-muted">
-            We'll never share your email or give out information.
-          </small>
           <br />
-          <label>Password:</label>
+          <label>Content: </label>
           <input
             className="form-control"
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
+            onChange={(e) => setContent(e.target.value)}
+            type="text"
           />
           <br />
-          <Button color="success" onClick={(e) => handleLogon(e)}>
-            Submit
-          </Button>
+          <Button onClick={(e) => handleNew(e)}>Submit</Button>
         </form>
       </main>
 

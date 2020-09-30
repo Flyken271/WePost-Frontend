@@ -1,111 +1,89 @@
-import React, { useEffect, useState } from "react";
-import { Form, Label, Input, Button } from "reactstrap";
-import axios from "axios";
-import { useUserCtx } from "../components/userContext";
-
-const RegisterPage = () => {
-  const [credentials, setCredentials] = useState();
-  const { user, setUser } = useUserCtx();
-  useEffect(() => {
-    console.log("user:", user);
-  }, [user]);
-
-  const submitRegister = (e) => {
+import Head from "next/head";
+import Link from "next/link";
+import { useState, useContext } from "react";
+import { Button } from "reactstrap";
+import strapi from "./components/backend";
+import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
+export default function Register() {
+  const [username, setUsername] = useState(0);
+  const [email, setEmail] = useState(0);
+  const [password, setPassword] = useState(0);
+  const router = useRouter();
+  const handleRegister = (e) => {
     e.preventDefault();
-
-    // Request API.
-    // Add your own code here to customize or restrict how the public can register new users.
-    axios
-      .post("https://api.wepost.xyz/auth/local/register", {
-        username: credentials.username,
-        email: credentials.email,
-        password: credentials.password,
-        business: credentials.business,
-      })
-      .then((response) => {
-        // Handle success.
-        setUser(response.data.user);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("jwt", response.data.jwt);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-      })
-      .catch((error) => {
-        // Handle error.
-        console.log("An error occurred:", error.response);
-      });
+    strapi.register(username, email, password).then((response) => {
+      storeUser({ user: response.user });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    });
   };
+
   return (
-    <div id="loginForm">
-      <Form
-        id="logonForm"
-        style={{ marginBottom: "200px" }}
-        onSubmit={submitRegister}
-      >
-        <h1>Register</h1>
-        <h6>
-          If you're a business or company looking to post a job for freelancers
-          to complete then please select the checkbox below stating so, if
-          you're a freelancer looking to complete jobs posted by companies and
-          business's please submit the form without the checkbox. Please be sure
-          to read the{" "}
-          <a id="tosLink" href="/tos">
-            Terms of Service
-          </a>{" "}
-          page. It is important that you have read the TOS page as it indicates
-          many different legal things regarding you and the freelancer.{" "}
-          <div style={{ color: "red" }}>
-            Fake or Fraudulant business accounts will be terminated along with
-            freelancer accounts deemed against TOS.
-          </div>
-        </h6>
-        <Label for="username">Username:</Label>
-        <Input
-          type="text"
-          onChange={(e) =>
-            setCredentials({ ...credentials, username: e.target.value })
-          }
-          id="username"
-          placeholder="Username"
-        />
-        <br />
-        <Label for="email">Email:</Label>
-        <Input
-          type="email"
-          onChange={(e) =>
-            setCredentials({ ...credentials, email: e.target.value })
-          }
-          id="email"
-          placeholder="Email Address"
-        />
-        <br />
-        <Label for="password">Password:</Label>
-        <Input
-          type="password"
-          onChange={(e) =>
-            setCredentials({ ...credentials, password: e.target.value })
-          }
-          id="password"
-        />
-        <br />
-        <Label>
-          <Input
-            type="checkbox"
-            onChange={(e) =>
-              setCredentials({
-                ...credentials,
-                business: e.target.checked,
-              })
-            }
+    <div className={styles.container}>
+      <Head>
+        <title>WePost - Register</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          Register to <a href="/">WePost!</a>
+        </h1>
+
+        <div className={styles.grid}>
+          <Link href="/">
+            <Button style={{ margin: "20px" }} color="success">
+              Home
+            </Button>
+          </Link>
+        </div>
+
+        <form>
+          <small className="form-text text-muted">
+            We'll never share any information given to anyone.
+          </small>
+          <label>Username:</label>
+          <input
+            className="form-control"
+            onChange={(e) => setUsername(e.target.value)}
+            type="text"
+            placeholder="Username"
           />
-          Business Account
-        </Label>
-        <br />
-        <Button color="success">Register</Button>
-      </Form>
+
+          <br />
+          <label>Email:</label>
+          <input
+            className="form-control"
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="Email"
+          />
+          <br />
+          <label>Password:</label>
+          <input
+            className="form-control"
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+          <br></br>
+          <Button color="success" onClick={(e) => handleRegister(e)}>
+            Submit
+          </Button>
+        </form>
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by{" "}
+          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+        </a>
+      </footer>
     </div>
   );
-};
-
-export default RegisterPage;
+}
