@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
 import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("http://api.wepost.xyz/");
+const strapi = new Strapi("https://api.wepost.xyz/");
 import { useAPI } from "./components/UserContextProvider";
 
 export default function Home(posts) {

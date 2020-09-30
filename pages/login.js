@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "reactstrap";
 import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("http://api.wepost.xyz/");
+const strapi = new Strapi("https://api.wepost.xyz/");
 import styles from "../styles/Home.module.css";
 
 export default function Login() {
