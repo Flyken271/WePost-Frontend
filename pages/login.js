@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "reactstrap";
 import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
+const strapi = new Strapi("");
 import styles from "../styles/Home.module.css";
+import Axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState(0);
@@ -13,8 +14,11 @@ export default function Login() {
   const router = useRouter();
   const handleLogon = (e) => {
     e.preventDefault();
-    strapi.login(email, password).then((response) => {
-      window.localStorage.setItem("jwt", response.jwt);
+    Axios.post("https://api.wepost.xyz/auth/local", {
+      identifier: email,
+      password: password,
+    }).then((response) => {
+      window.localStorage.setItem("jwt", response.data.jwt);
       setTimeout(() => {
         router.push("/");
       }, 2000);

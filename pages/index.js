@@ -2,9 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
-import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
 import { useAPI } from "./components/UserContextProvider";
+import Axios from "axios";
 
 export default function Home(posts) {
   const { user } = useAPI();
@@ -80,11 +79,11 @@ export default function Home(posts) {
 
         <footer className={styles.footer}>
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://flyken.org"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Powered by{" "}
+            Created by Jared Collins, Copyright C - Powered by{" "}
             <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
           </a>
         </footer>
@@ -94,8 +93,10 @@ export default function Home(posts) {
 }
 
 export async function getServerSideProps() {
-  const response = await strapi.getEntries("posts?_sort=created_at:DESC");
-  var posts = response;
+  const response = await Axios.get(
+    "https://api.wepost.xyz/posts?_sort=created_at:DESC"
+  );
+  var posts = response.data;
 
   return {
     props: {

@@ -6,19 +6,29 @@ import Strapi from "strapi-sdk-javascript";
 const strapi = new Strapi("https://api.wepost.xyz/");
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
+import Axios from "axios";
 export default function Register() {
   const [username, setUsername] = useState(0);
   const [email, setEmail] = useState(0);
   const [password, setPassword] = useState(0);
   const router = useRouter();
+  console.log("creds: ", username + " : " + email + " : " + password);
   const handleRegister = (e) => {
     e.preventDefault();
-    strapi.register(username, email, password).then((response) => {
-      storeUser({ user: response.user });
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
-    });
+    Axios.post("https://api.wepost.xyz/auth/local/register", {
+      username: username,
+      email: email,
+      password: password,
+    })
+      .then((response) => {
+        window.localStorage.setItem("jwt", response.data.jwt);
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   return (

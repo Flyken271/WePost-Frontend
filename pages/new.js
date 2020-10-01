@@ -3,28 +3,42 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "reactstrap";
-import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
 import styles from "../styles/Home.module.css";
 import { useAPI } from "./components/UserContextProvider";
+import Axios from "axios";
 
 export default function New() {
   const { user } = useAPI();
   const [title, setTitle] = useState(0);
   const [content, setContent] = useState(0);
   const router = useRouter();
+
   const handleNew = (e) => {
     e.preventDefault();
-    strapi
-      .createEntry("Posts", {
+    console.log(window.localStorage.getItem("jwt"));
+    console.log("creds", title + " : " + content);
+    Axios.post(
+      "https://api.wepost.xyz/posts",
+      {
         Title: title,
         content: content,
         user: user,
-      })
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("jwt")
+            .replace(/['"]+/g, "")}`,
+        },
+      }
+    )
       .then((response) => {
         setTimeout(() => {
           router.push("/");
         }, 2000);
+      })
+      .catch((error) => {
+        console.log(error.response);
       });
   };
 
@@ -36,7 +50,7 @@ export default function New() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Create a new post.</h1>
+        <h1 className={styles.title}>Create a new article.</h1>
 
         <div className={styles.grid}>
           <Link href="/">
@@ -51,8 +65,8 @@ export default function New() {
           <input
             className="form-control"
             onChange={(e) => {
-              if (e.target.value.length >= 20) {
-                alert("The title cannot exceed 20 characters!");
+              if (e.target.value.length >= 40) {
+                alert("The title cannot exceed 40 characters!");
                 e.target.value = "";
               } else {
                 setTitle(e.target.value);
@@ -62,11 +76,13 @@ export default function New() {
             placeholder="Username or Email"
           />
           <br />
-          <label>Content: </label>
-          <input
+          <label>Article: </label>
+          <textarea
+            rows="10"
+            cols="80"
+            style={{ resize: "none" }}
             className="form-control"
             onChange={(e) => setContent(e.target.value)}
-            type="text"
           />
           <br />
           <Button onClick={(e) => handleNew(e)}>Submit</Button>
