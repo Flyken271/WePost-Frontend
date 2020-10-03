@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Button } from "reactstrap";
+import { Button, Badge } from "reactstrap";
 import styles from "../styles/Home.module.css";
 import Axios from 'axios';
 
@@ -27,7 +27,7 @@ const Page = ({ id, posts }) => {
                   <h3>{post.Title}</h3>
                   <p>{post.content}</p>
                   <br />
-                  <h6>by {post.user?.username}</h6>
+                  <h6>by <Badge color="success">{post?.user?.username}</Badge></h6>
                 </span>
               ) : (
                 <></>

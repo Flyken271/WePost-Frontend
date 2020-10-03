@@ -23,6 +23,11 @@
   align-items: center;
 }
 
+#idLink {
+  color: black;
+  text-decoration: none;
+}
+
 .backButton {
   width: 200px;
   margin-left: 40px;
