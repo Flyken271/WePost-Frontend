@@ -1,11 +1,9 @@
-import Strapi from "strapi-sdk-javascript";
-const strapi = new Strapi("https://api.wepost.xyz/");
 import Head from "next/head";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
+import Axios from 'axios';
 
 const Page = ({ id, posts }) => {
-  console.log(posts);
   return (
     <>
       <Button
@@ -22,11 +20,10 @@ const Page = ({ id, posts }) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className={styles.main}>
-          <div className={styles.grid}>
+        <main className={styles.idmain}>
             {posts.map((post, index) => {
               return id == post.id ? (
-                <span key={index} className={styles.card}>
+                <span key={index} className={styles.article}>
                   <h3>{post.Title}</h3>
                   <p>{post.content}</p>
                   <br />
@@ -36,7 +33,6 @@ const Page = ({ id, posts }) => {
                 <></>
               );
             })}
-          </div>
         </main>
 
         <footer className={styles.footer}>
@@ -55,8 +51,10 @@ const Page = ({ id, posts }) => {
 };
 
 export async function getServerSideProps({ params: { id } }) {
-  const response = await strapi.getEntries("Posts");
-  var posts = response;
+  const response = await Axios.get(
+    "https://api.wepost.xyz/posts"
+  );
+  var posts = response.data;
   return {
     props: {
       id,

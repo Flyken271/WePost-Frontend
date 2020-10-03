@@ -1,14 +1,32 @@
+import {useState} from 'react'
 import Head from "next/head";
 import Link from "next/link";
 import { Button } from "reactstrap";
 import styles from "../styles/Home.module.css";
 import { useAPI } from "./components/UserContextProvider";
 import Axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Home(posts) {
   const { user } = useAPI();
+  const [search, setSearch] = useState(0);
+  const router = useRouter();
+
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    posts.posts.map((post, index)=>{
+      if(post.Title.includes(search)){
+        router.push('/'+post.id);
+      }
+    })
+  }
+
   return (
     <>
+    <form onSubmit={(e) => handleSearch(e)} className={styles.search}>
+      <input onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search" />
+    </form>
       {user.id ? (
         <>
           <Link href="/new/">

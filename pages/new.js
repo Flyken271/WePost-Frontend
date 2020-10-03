@@ -11,6 +11,7 @@ export default function New() {
   const { user } = useAPI();
   const [title, setTitle] = useState(0);
   const [content, setContent] = useState(0);
+  const [tags, setTags] = useState(0);
   const router = useRouter();
 
   const handleNew = (e) => {
@@ -23,6 +24,7 @@ export default function New() {
         Title: title,
         content: content,
         user: user,
+        tag: tags
       },
       {
         headers: {

@@ -16,10 +16,29 @@
   align-items: center;
 }
 
+.idmain {
+  width: 200%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .backButton {
   width: 200px;
   margin-left: 40px;
   margin-top: 40px;
+}
+
+.search {
+  float: right;
+  width: 400px;
+  margin-right: 40px;
+  margin-top: 40px;
+}
+.search input {
+  float: right;
+  width: 300px;
+  border-radius: 8px;
 }
 
 .menuButtons {
@@ -105,6 +124,18 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
+.article {
+  margin: 0.5rem;
+  flex-basis: 45%;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1.5px solid #0070f3;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
 .card:hover,
 .card:focus,
 .card:active {
@@ -113,6 +144,11 @@
 }
 
 .card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.article h3 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
 }
@@ -128,6 +164,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.article p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  max-width: 800px;
+  min-width: 400px;
+  word-wrap: break-word;
+}
 
 .logo {
   height: 1em;
@@ -138,4 +182,8 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.tagbadge{
+  margin: 4px;
 }
